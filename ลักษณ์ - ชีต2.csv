@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+"<html lang=""th"">"
+<head>
+"<meta charset=""UTF-8"">"
+"<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">"
+<title>Quiz บุคลิกภาพ</title>
+<script>
+// ตัวอย่างคำถามและประเภท (จะต้องดึงจากไฟล์จริงในระบบ backend)
+const questions = [
+"{ text: ""ฉันชอบให้ทุกอย่างเป็นระบบ มีระเบียบ"", type: 1 },"
+"{ text: ""เป็นเรื่องยากสำหรับฉันที่จะแสดงออกทันทีโดยไม่ไตร่ตรอง"", type: 2 },"
+"{ text: ""ฉันมักรู้สึกผิดถ้าไม่ได้ทำอะไรให้สมบูรณ์ที่สุด"", type: 1 },"
+"{ text: ""ฉันไม่ชอบคนที่ทำผิดกฎ"", type: 1 },"
+"{ text: ""ฉันมีอุดมคติที่จะทำโลกนี้ให้ดีขึ้น"", type: 3 }"
+];
+
+let currentQuestionIndex = 0;
+let scores = {};
+
+function startQuiz() {
+currentQuestionIndex = 0;
+scores = {};
+showQuestion();
+}
+
+function showQuestion() {
+if (currentQuestionIndex < questions.length) {
+"document.getElementById(""question"").innerText = questions[currentQuestionIndex].text;"
+} else {
+showResult();
+}
+}
+
+function answer(isYes) {
+let type = questions[currentQuestionIndex].type;
+if (isYes) {
+scores[type] = (scores[type] || 0) + 1;
+}
+currentQuestionIndex++;
+showQuestion();
+}
+
+function showResult() {
+"let maxType = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);"
+"document.getElementById(""result"").innerText = `คุณมีบุคลิกแบบที่ ${maxType} มากที่สุด!`;"
+"document.getElementById(""quiz"").style.display = ""none"";"
+"document.getElementById(""resultSection"").style.display = ""block"";"
+}
+</script>
+</head>
+"<body onload=""startQuiz()"">"
+"<div id=""quiz"">"
+"<h2 id=""question"">Loading...</h2>"
+"<button onclick=""answer(true)"">ใช่</button>"
+"<button onclick=""answer(false)"">ไม่</button>"
+</div>
+"<div id=""resultSection"" style=""display:none;"">"
+"<h2 id=""result""></h2>"
+"<button onclick=""startQuiz()"">เล่นอีกครั้ง</button>"
+</div>
+</body>
+</html>
